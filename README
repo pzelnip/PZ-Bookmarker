@@ -1,0 +1,13 @@
+PZ Bookmarker
+=============
+
+Overview
+--------
+So, have a smartphone or other input challenged device?  It's a PITA typing those long URL's with the crappy keyboard on them isn't it?  Wouldn't it be nice if there was a free website you could go to, type in a short, easy-to-remember pneumonic of your choosing, and then be taken to the site?  
+
+I thought so, hence this project.  PZ Bookmarker allows you to host an app on the Google App Engine (http://code.google.com/appengine/) that presents a web interface that allows you to encode url's using whatever pneumonic you wish.
+
+Scope
+-----
+The scope of the project is essentially personal in nature -- I wanted to have some project on GitHub, I wanted an easy way to encode URL's so that on awkward interfaces (such as my Android phone) I could easily find all my typical URL's, and I wanted further practice working with Google App Engine.  Hence this project.
+
