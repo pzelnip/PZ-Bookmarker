@@ -23,3 +23,9 @@ TLDR: I wanted a "playground" to try out new and interesting technologies, and
 this just happens to be it. :)
 
 - Adam Parkin (pzelnip)
+
+Some things I want to play with/add/try out:
+
+- implement a 1st version. ;D
+- adding RESTful interface (lookup a bookmark, add a new pneumonic, etc)
+- OAuth authentication (make the GAE app a resource owner that clients have to authenticate against)
