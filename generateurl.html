@@ -4,17 +4,16 @@
     </head>
 
     <body>
+        <div>
 
-        <div id="mainform">
-
-        <form action="/" method="POST" name="getnexturl">
+        <form action="/" method="POST">
             <label for="target_url">URL:</label>
             <br>
-            <input type="text" name="target_url" style="width: 550px" />
+            <input type="text" name="target_url" style="width: 500px" />
             <br>
             <label for"target_alias">Alias:</label>
             <br>
-            <input type="text" name="target_alias" style="width: 550px" />
+            <input type="text" name="target_alias" style="width: 500px" />
             <br>
             <input type="submit" value="Generate" />
         </form>
@@ -32,11 +31,10 @@
         <form action="/lookup" method="POST" name="lookupurl">
             <label for="lookup_url">Lookup URL:
             <br>
-            <input type="text" name="lookupurl" style="width: 550px" />
+            <input type="text" name="lookupurl" style="width: 500px" />
             <br>
             <input type="submit" value="Lookup" />
         </form>
         </div>
-
     </body>
 </html>

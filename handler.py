@@ -11,10 +11,9 @@ import jinja2
 
 LOGGER = logging.getLogger(__name__)
 
-JINJA_ENV = jinja2.Environment(loader = \
-                        jinja2.FileSystemLoader(os.path.dirname(__file__)))
+JINJA_ENV = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(__file__)))
 
-# ------------------ MODELS -----------------
+# ------------------ MODELS ------------------ 
 
 class TargetModel(db.Model):
     target = db.StringProperty(required=True)
@@ -74,13 +73,13 @@ class GenerateURL(webapp.RequestHandler):
         url = self.request.get('target_url')
         alias = self.request.get('target_alias')
         if url:
-            target_id = store_target(url, alias)
-            self.get(target_id)
+            target = store_target(url, alias)
+            self.get(target)
         else:
             self.error(500)
 
 
-# ------------- FUNCTIONS -------------
+# ------------------ FUNCTIONS ------------------ 
 
 def store_target(target, alias):
     '''
@@ -96,26 +95,23 @@ def store_target(target, alias):
     @return: the TargetModel instance that was inserted
     @type: TargetModel
     '''
-    retval = None
-    if target:
-        # decode any percent encoding (ex: http:%3A//www.something.com)
-        target = unquote(target)
+    # decode any percent encoding (ex: http:%3A//www.something.com)
+    target = unquote(target)
 
-        protocol = urlparse(target.lower()).scheme
-        
-        # if no protocol specified, assume http
-        if not protocol:
-            target = "http://" + target
+    protocol = urlparse(target.lower()).scheme
+    
+    # if no protocol specified, assume http
+    if not protocol:
+        target = "http://" + target
 
-        # store it        
-        targetmodel = TargetModel(
-            target = target,
-            shorthand = alias,
-        )
-        targetmodel.put()
-        retval = targetmodel
+    # store it        
+    targetmodel = TargetModel(
+        target = target,
+        shorthand = alias,
+    )
+    targetmodel.put()
+    return targetmodel
 
-    return retval
 
 def get_most_recent_target(shorthand):
     '''
@@ -143,7 +139,6 @@ def get_most_recent_target(shorthand):
         return result
     else:
         raise ValueError("Invalid shorthand '%s'" % shorthand)        
-
 
 
 # Register the URL with the responsible classes

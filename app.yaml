@@ -5,11 +5,8 @@ api_version: 1
 threadsafe: false
 
 handlers:
-- url: /create
-  script: referrer.py
-
 - url: /.*
-  script: referrer.py
+  script: handler.py
 
 builtins:
 - remote_api: on
@@ -18,5 +15,3 @@ libraries:
 - name: jinja2
   version: latest
 
-- name: markupsafe
-  version: latest
