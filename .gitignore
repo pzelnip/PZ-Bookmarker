@@ -1,0 +1,9 @@
+.project
+.pydevproject
+*.pyc
+*.pkl
+*.swp
+bulkloader-log-*
+bulkloader-progress-*
+bulkloader-results-*
+bulkloader.yaml

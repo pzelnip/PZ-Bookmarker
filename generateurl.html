@@ -1,0 +1,42 @@
+<html>
+    <head>
+    <title>BMK</title>
+    </head>
+
+    <body>
+
+        <div id="mainform">
+
+        <form action="/" method="POST" name="getnexturl">
+            <label for="target_url">URL:</label>
+            <br>
+            <input type="text" name="target_url" style="width: 550px" />
+            <br>
+            <label for"target_alias">Alias:</label>
+            <br>
+            <input type="text" name="target_alias" style="width: 550px" />
+            <br>
+            <input type="submit" value="Generate" />
+        </form>
+
+        {% if newurl%}
+            Your new URL: 
+            <a href="{{newurl}}">{{newurl}}</a>
+        {% endif %}
+
+        </div>
+
+        <hr>
+
+        <div id="lookupform">
+        <form action="/lookup" method="POST" name="lookupurl">
+            <label for="lookup_url">Lookup URL:
+            <br>
+            <input type="text" name="lookupurl" style="width: 550px" />
+            <br>
+            <input type="submit" value="Lookup" />
+        </form>
+        </div>
+
+    </body>
+</html>

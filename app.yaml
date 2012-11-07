@@ -1,9 +1,22 @@
-application: pzbmrk 
+application: bk-mrk 
 version: 1
 runtime: python27
 api_version: 1
-threadsafe: true
+threadsafe: false
 
 handlers:
+- url: /create
+  script: referrer.py
+
 - url: /.*
-  script: helloworld.app
+  script: referrer.py
+
+builtins:
+- remote_api: on
+
+libraries:
+- name: jinja2
+  version: latest
+
+- name: markupsafe
+  version: latest
