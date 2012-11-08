@@ -1,5 +1,8 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
     <title>BMK</title>
     </head>
 
@@ -7,15 +10,15 @@
         <div>
 
         <form action="/" method="POST">
-            <label for="target_url">URL:</label>
+            <label for="targeturl">URL:</label>
             <br>
-            <input type="text" name="target_url" style="width: 500px" />
+            <input type="text" id="targeturl" name="target_url" style="width: 500px">
             <br>
-            <label for"target_alias">Alias:</label>
+            <label for="targetalias">Alias:</label>
             <br>
-            <input type="text" name="target_alias" style="width: 500px" />
+            <input type="text" id="targetalias" name="target_alias" style="width: 500px">
             <br>
-            <input type="submit" value="Generate" />
+            <input type="submit" value="Generate">
         </form>
 
         {% if newurl%}
@@ -29,11 +32,11 @@
 
         <div id="lookupform">
         <form action="/lookup" method="POST" name="lookupurl">
-            <label for="lookup_url">Lookup URL:
+            <label for="lookup_url">Lookup URL:</label>
             <br>
-            <input type="text" name="lookupurl" style="width: 500px" />
+            <input type="text" name="lookupurl" id="lookup_url" style="width: 500px">
             <br>
-            <input type="submit" value="Lookup" />
+            <input type="submit" value="Lookup">
         </form>
         </div>
     </body>
