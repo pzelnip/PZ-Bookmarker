@@ -1,0 +1,31 @@
+PZ Bookmarker
+=============
+
+Overview
+--------
+So, have a smartphone or other input challenged device?  It's a PITA typing 
+those long URL's with the crappy keyboard on them isn't it?  Wouldn't it be 
+nice if there was a free website you could go to, type in a short, 
+easy-to-remember pneumonic of your choosing, and then be taken to the site?  
+
+I thought so, hence this project.  PZ Bookmarker allows you to host an app on 
+the Google App Engine (http://code.google.com/appengine/) that presents a web 
+interface that allows you to encode url's using whatever pneumonic you wish.
+
+But Really
+----------
+The scope of the project is essentially personal in nature -- I wanted to have 
+some project on GitHub, I wanted to play around with some web technologies, 
+I wanted to have the chance to explore other cool things, and specifically I 
+wanted further practice working with Google App Engine.  Hence this project.
+
+TLDR: I wanted a "playground" to try out new and interesting technologies, and
+this just happens to be it. :)
+
+- Adam Parkin (pzelnip)
+
+Some things I want to play with/add/try out:
+
+- implement a 1st version. ;D
+- adding RESTful interface (lookup a bookmark, add a new pneumonic, etc)
+- OAuth authentication (make the GAE app a resource owner that clients have to authenticate against)
