@@ -16,9 +16,13 @@ JINJA_ENV = jinja2.Environment(loader = jinja2.FileSystemLoader(os.path.dirname(
 # ------------------ MODELS ------------------ 
 
 class TargetModel(db.Model):
+    '''
+    The datastore model to contain info about shortened URL's (targets).
+    '''
     target = db.StringProperty(required=True)
     shorthand = db.StringProperty(required=True, indexed=True)
     timestamp = db.DateTimeProperty(auto_now=True)
+    user = db.UserProperty(auto_current_user=True, auto_current_user_add=True)
 
 
 # ------------------ REQUEST HANDLERS --------------------
@@ -31,17 +35,22 @@ class LookupAndRedirect(webapp.RequestHandler):
         @param shorthand: the TargetModel shorthand entry for the url
         @type shorthand: str
         '''
-        try:
-            shorthand = args[0] if len(args) > 0 else None
-            entity = get_most_recent_target(shorthand)
+        user = users.get_current_user()
+        if user:
+            try:
+                shorthand = args[0] if len(args) > 0 else None
+                entity = lookup_url(shorthand)
 
-            if entity:
-                self.redirect(entity.target)
-        except ValueError as valerr:
-            LOGGER.error("Got invalid/unparsable target shorthand (%s): %s", 
-                         shorthand, valerr)
-            self.error(500)  # redirect to "Internal Server Error" page
-            return  # shouldn't be needed, but doesn't hurt
+                if entity:
+                    self.redirect(entity.target)
+            except ValueError as valerr:
+                LOGGER.error("Got invalid/unparsable target shorthand (%s): %s", 
+                             shorthand, valerr)
+                self.error(500)  # redirect to "Internal Server Error" page
+                return  # shouldn't be needed, but doesn't hurt
+        else:
+            # redirect to unauthorized user page
+            self.redirect(users.create_login_url(self.request.uri))
 
     def post(self):
         '''
@@ -56,14 +65,22 @@ class LookupAndRedirect(webapp.RequestHandler):
 
 class GenerateURL(webapp.RequestHandler):
     def get(self, *args):
-        baseurl = self.request.host_url + "/"
-        newurl = baseurl + args[0].shorthand if len(args) > 0 else None
+        user = users.get_current_user()
+        if user:
+            logouturl = users.create_logout_url(self.request.uri)
+            baseurl = self.request.host_url + "/"
+            newurl = baseurl + args[0].shorthand if len(args) > 0 else None
 
-        template = JINJA_ENV.get_template('generateurl.html')
-        values = {
-                 'newurl': newurl, 
-                 }
-        self.response.out.write(template.render(values))
+            template = JINJA_ENV.get_template('generateurl.html')
+            values = {
+                     'newurl': newurl, 
+                     'logouturl': logouturl,
+                     'user' : user.nickname(),
+                     }
+            self.response.out.write(template.render(values))
+        else:
+            # redirect to unauthorized user page
+            self.redirect(users.create_login_url(self.request.uri))
 
     def post(self):
         '''
@@ -113,25 +130,31 @@ def store_target(target, alias):
     return targetmodel
 
 
-def get_most_recent_target(shorthand):
+def lookup_url(shorthand, user=None):
     '''
-    Gets the most recent (by date) target entry with the given shorthand
-    value.  
+    Lookup the given url associated with the given shorthand for the specified 
+    user.
     
-    @param shorthand: limit results to only those entries with this 
-    shorthand
+    @param shorthand: the url shorthand (ie hashed name) 
     @type shorthand: str
+
+    @param user: the user to limit results to, if None, then the currently
+    logged in user is used.
+    @type user: users.User 
     
-    @return: the TargetModel instance that has the given shorthand, and the
-    most recent timestamp value
+    @return: the TargetModel instance that has the given shorthand, with the
+    most recent timestamp value, and that was added by user.
     @rtype: TargetModel
     
     @raise ValueError: if shorthand is not a valid shorthand value (ie 
-    there is no target with that value)
+    there is no target with that value, or it was created by a different user)
     '''
+    if not user:
+        user = users.get_current_user()
     query = TargetModel.all()
 
     query.filter("shorthand = ", shorthand)  # lookup by shorthand
+    query.filter("user = ", user) # limit to specified user
     query.order("-timestamp")   # sort by time desc (newest 1st)
     result = query.get()
 

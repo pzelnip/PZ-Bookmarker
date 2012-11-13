@@ -7,8 +7,9 @@
     </head>
 
     <body>
+        {% if msg %} {{ msg }}<br> {% endif %}
+        <h3>Logged in as {{ user }}</h3>
         <div>
-
         <form action="/" method="POST">
             <label for="targeturl">URL:</label>
             <br>
@@ -38,6 +39,12 @@
             <br>
             <input type="submit" value="Lookup">
         </form>
+        </div>
+
+        <hr>
+
+        <div>
+        <a href="{{ logouturl }}">Logout</a>
         </div>
     </body>
 </html>

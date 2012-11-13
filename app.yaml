@@ -7,6 +7,7 @@ threadsafe: false
 handlers:
 - url: /.*
   script: handler.py
+  login: required
 
 builtins:
 - remote_api: on
